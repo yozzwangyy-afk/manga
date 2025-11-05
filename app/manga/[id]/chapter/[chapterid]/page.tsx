@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import useSWR from 'swr';
 import { useParams, useRouter } from 'next/navigation';
 import { mangaAPI } from '@/lib/api';
+import { Page } from '@/types/manga';
 
 const fetcher = ([mangaId, chapterId]: [string, string]) =>
   mangaAPI.getChapter(mangaId, chapterId);
@@ -177,9 +178,9 @@ export default function ChapterReader() {
             {!isFullscreen && (
               <div className="flex justify-center mt-6">
                 <div className="flex space-x-2">
-                  {chapter.pages.map((_, index) => (
+                  {chapter.pages.map((page: Page, index: number) => (
                     <button
-                      key={index}
+                      key={page.id}
                       onClick={() => setCurrentPage(index)}
                       className={`w-3 h-3 rounded-full transition-colors ${
                         index === currentPage ? 'bg-blue-600' : 'bg-gray-600 hover:bg-gray-500'
